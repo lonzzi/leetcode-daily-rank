@@ -1,1 +1,1 @@
-# LeetcodeRank
+# leetcode-daily-rank
