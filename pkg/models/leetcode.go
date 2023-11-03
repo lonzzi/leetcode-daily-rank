@@ -2,43 +2,47 @@ package models
 
 type UserProfileCalendarResp struct {
 	Data struct {
-		UserCalendar struct {
-			Streak             int    `json:"streak"`
-			TotalActiveDays    int    `json:"totalActiveDays"`
-			SubmissionCalendar string `json:"submissionCalendar"`
-			ActiveYears        []int  `json:"activeYears"`
-			MonthlyMedals      []struct {
-				Name       string `json:"name"`
-				ObtainDate string `json:"obtainDate"`
-				Category   string `json:"category"`
-				Config     struct {
-					Icon              string `json:"icon"`
-					IconGif           string `json:"iconGif"`
-					IconGifBackground string `json:"iconGifBackground"`
-				} `json:"config"`
-				Progress int    `json:"progress"`
-				ID       string `json:"id"`
-				Year     int    `json:"year"`
-				Month    int    `json:"month"`
-			} `json:"monthlyMedals"`
-			RecentStreak int `json:"recentStreak"`
-		} `json:"userCalendar"`
+		UserCalendar UserCalendar `json:"userCalendar"`
 	} `json:"data"`
+}
+
+type UserCalendar struct {
+	Streak             int    `json:"streak"`             // 连续提交
+	TotalActiveDays    int    `json:"totalActiveDays"`    // 总活跃天数
+	SubmissionCalendar string `json:"submissionCalendar"` // 每日提交
+	ActiveYears        []int  `json:"activeYears"`
+	// MonthlyMedals      []struct {
+	// 	Name       string `json:"name"`
+	// 	ObtainDate string `json:"obtainDate"`
+	// 	Category   string `json:"category"`
+	// 	Config     struct {
+	// 		Icon              string `json:"icon"`
+	// 		IconGif           string `json:"iconGif"`
+	// 		IconGifBackground string `json:"iconGifBackground"`
+	// 	} `json:"config"`
+	// 	Progress int    `json:"progress"`
+	// 	ID       string `json:"id"`
+	// 	Year     int    `json:"year"`
+	// 	Month    int    `json:"month"`
+	// } `json:"monthlyMedals"`
+	RecentStreak int `json:"recentStreak"`
 }
 
 type RecentACSubmissionsResp struct {
 	Data struct {
-		RecentACSubmission struct {
-			SubmissionID int   `json:"submissionId"`
-			SubmitTime   int64 `json:"submitTime"`
-			Question     struct {
-				Title              string `json:"title"`
-				TranslatedTitle    string `json:"translatedTitle"`
-				TitleSlug          string `json:"titleSlug"`
-				QuestionFrontendID string `json:"questionFrontendId"`
-			} `json:"question"`
-		} `json:"recentACSubmissions"`
+		RecentACSubmission []RecentACSubmission `json:"recentACSubmissions"`
 	} `json:"data"`
+}
+
+type RecentACSubmission struct {
+	SubmissionID int   `json:"submissionId"`
+	SubmitTime   int64 `json:"submitTime"`
+	Question     struct {
+		Title              string `json:"title"`
+		TranslatedTitle    string `json:"translatedTitle"`
+		TitleSlug          string `json:"titleSlug"`
+		QuestionFrontendID string `json:"questionFrontendId"`
+	} `json:"question"`
 }
 
 type UserProfileResp struct {
@@ -50,7 +54,6 @@ type UserProfileResp struct {
 				UserSlug         string      `json:"userSlug"`
 				RealName         string      `json:"realName"`
 				AboutMe          string      `json:"aboutMe"`
-				ASCIICode        string      `json:"asciiCode"`
 				UserAvatar       string      `json:"userAvatar"`
 				Gender           string      `json:"gender"`
 				Websites         []string    `json:"websites"`

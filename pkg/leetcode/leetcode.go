@@ -128,7 +128,6 @@ func GetUserProfilePublicProfile(userSlug string) (*models.UserProfileResp, erro
 			userSlug
 			realName
 			aboutMe
-			asciiCode
 			userAvatar
 			gender
 			websites

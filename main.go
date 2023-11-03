@@ -1,16 +1,15 @@
 package main
 
 import (
-	"fmt"
-	"github.com/lonzzi/leetcode-daily-rank/pkg/leetcode"
+	"github.com/lonzzi/leetcode-daily-rank/data"
+	"github.com/lonzzi/leetcode-daily-rank/services/leetcode"
 )
 
 func main() {
-	response, err := leetcode.GetUserProfilePublicProfile("lonzzi")
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
+	data.Init()
 
-	fmt.Println(response)
+	err := leetcode.SaveUserProfile("lonzzi")
+	if err != nil {
+		panic(err)
+	}
 }
