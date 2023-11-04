@@ -14,6 +14,7 @@ type User struct {
 	Location           string
 	UseDefaultAvatar   bool
 	UserCalendar       models.UserCalendar
+	TodaySubmissions   int
 	RecentACSubmission struct {
 		RecentACSubmission models.RecentACSubmission
 		Question           models.Question

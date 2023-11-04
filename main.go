@@ -8,6 +8,7 @@ import (
 	"github.com/lonzzi/leetcode-daily-rank/data"
 	"github.com/lonzzi/leetcode-daily-rank/pkg/cron"
 	"github.com/lonzzi/leetcode-daily-rank/routes"
+	"github.com/lonzzi/leetcode-daily-rank/services/leetcode"
 )
 
 func main() {
@@ -24,4 +25,18 @@ func initConfig() {
 	data.Init()
 	cron.Init()
 	config.Init()
+
+	SaveUsers := func(conf *config.Config) func() {
+		return func() {
+			for _, user := range conf.LeetCode.UserSlug {
+				leetcode.SaveUserProfile(user)
+			}
+		}
+	}
+
+	conf := config.GetConfig()
+	SaveUsers(&conf)()
+	cron.AddFunc("@every 10m", SaveUsers(&conf))
+
+	cron.Start()
 }
