@@ -1,0 +1,7 @@
+leetcode:
+  userSlug:
+    - 'lonzzi'
+
+server:
+  host: 'localhost'
+  port: 3301
