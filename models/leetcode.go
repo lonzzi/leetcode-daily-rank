@@ -1,7 +1,8 @@
 package models
 
 type User struct {
-	UserSlug         string `gorm:"primaryKey"`
+	ID               int    `gorm:"primaryKey;autoIncrement"`
+	UserSlug         string `gorm:"unique;not null"`
 	RealName         string
 	AboutMe          string
 	UserAvatar       string
@@ -14,7 +15,8 @@ type User struct {
 }
 
 type UserCalendar struct {
-	UserSlug           string `gorm:"primaryKey"`
+	ID                 int    `gorm:"primaryKey;autoIncrement"`
+	UserSlug           string `gorm:"unique;not null"`
 	Streak             int    // 连续提交
 	TotalActiveDays    int    // 总活跃天数
 	SubmissionCalendar string // 每日提交
@@ -23,7 +25,8 @@ type UserCalendar struct {
 }
 
 type RecentACSubmission struct {
-	UserSlug           string `gorm:"primaryKey"`
+	ID                 int    `gorm:"primaryKey;autoIncrement"`
+	UserSlug           string `gorm:"unique;not null"`
 	SubmissionID       int
 	SubmitTime         int64
 	QuestionFrontendID string

@@ -3,6 +3,7 @@ package leetcode
 import (
 	"github.com/lonzzi/leetcode-daily-rank/data"
 	"github.com/lonzzi/leetcode-daily-rank/models"
+	"github.com/lonzzi/leetcode-daily-rank/models/api"
 	lt "github.com/lonzzi/leetcode-daily-rank/pkg/leetcode"
 )
 
@@ -59,10 +60,44 @@ func SaveUserProfile(userSlug string) error {
 	}
 
 	db := data.Get()
-	db.Create(&user)
-	db.Create(&userCalendar)
-	db.Create(&recentACSubmissions)
-	db.Create(&question)
+	db.Where(models.User{UserSlug: userSlug}).FirstOrCreate(&user)
+	db.Where(models.User{UserSlug: userSlug}).FirstOrCreate(&userCalendar)
+	db.Where(models.User{UserSlug: userSlug}).FirstOrCreate(&recentACSubmissions)
+	db.FirstOrCreate(&question)
 
 	return nil
+}
+
+func GetUserProfile(userSlug string) (api.User, error) {
+	dbUser := models.User{}
+	dbUserCalendar := models.UserCalendar{}
+	dbRecentACSubmission := models.RecentACSubmission{}
+	dbQuestion := models.Question{}
+
+	db := data.Get()
+	db.Where("user_slug = ?", userSlug).First(&dbUser)
+	db.Where("user_slug = ?", userSlug).First(&dbUserCalendar)
+	db.Where("user_slug = ?", userSlug).First(&dbRecentACSubmission)
+	db.Where("question_frontend_id = ?", dbRecentACSubmission.QuestionFrontendID).First(&dbQuestion)
+
+	return api.User{
+		UserSlug:         dbUser.UserSlug,
+		RealName:         dbUser.RealName,
+		AboutMe:          dbUser.AboutMe,
+		UserAvatar:       dbUser.UserAvatar,
+		Gender:           dbUser.Gender,
+		Websites:         dbUser.Websites,
+		SkillTags:        dbUser.SkillTags,
+		IPRegion:         dbUser.IPRegion,
+		Location:         dbUser.Location,
+		UseDefaultAvatar: dbUser.UseDefaultAvatar,
+		UserCalendar:     dbUserCalendar,
+		RecentACSubmission: struct {
+			RecentACSubmission models.RecentACSubmission
+			Question           models.Question
+		}{
+			RecentACSubmission: dbRecentACSubmission,
+			Question:           dbQuestion,
+		},
+	}, nil
 }
