@@ -26,6 +26,11 @@ func initConfig() {
 	cron.Init()
 	config.Init()
 
+	// user, _ := leetcode.GetUsersByRank()
+	// for _, u := range user {
+	// 	fmt.Println(u)
+	// }
+
 	SaveUsers := func(conf *config.Config) func() {
 		return func() {
 			for _, user := range conf.LeetCode.UserSlug {

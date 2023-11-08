@@ -26,3 +26,21 @@ func GetUserProfile(c *gin.Context) {
 		"msg":  "ok",
 	})
 }
+
+func GetUsersByRank(c *gin.Context) {
+	users, err := leetcode.GetUsersByRank()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"code": 0,
+			"data": nil,
+			"msg":  err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"code": 1,
+		"data": users,
+		"msg":  "ok",
+	})
+}

@@ -219,3 +219,13 @@ func GetUserProfile(userSlug string) (*api.User, error) {
 		},
 	}, nil
 }
+
+func GetUsersByRank() ([]*models.User, error) {
+	dbUsers := []*models.User{}
+	db := data.Get()
+	ret := db.Order("today_submissions desc").Find(&dbUsers)
+	if ret.Error != nil {
+		return nil, ret.Error
+	}
+	return dbUsers, nil
+}

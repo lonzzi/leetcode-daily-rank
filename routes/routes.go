@@ -17,5 +17,6 @@ func InitRoute(r *gin.Engine) {
 	userG := r.Group("/user")
 	{
 		userG.GET("/:userSlug", handlers.GetUserProfile)
+		userG.GET("/rank", handlers.GetUsersByRank)
 	}
 }
