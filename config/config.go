@@ -19,6 +19,12 @@ type Config struct {
 var C Config
 
 func Init() {
+	_, err := os.Stat("./config/config.yml")
+	if os.IsNotExist(err) {
+		os.Mkdir("./config", 0755)
+		os.Create("./config/config.yml")
+	}
+
 	dataBytes, err := os.ReadFile("./config/config.yml")
 	if err != nil {
 		panic(err)
