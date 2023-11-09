@@ -4,9 +4,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"reflect"
+	"sort"
 	"strconv"
 	"time"
 
+	"github.com/lonzzi/leetcode-daily-rank/config"
 	"github.com/lonzzi/leetcode-daily-rank/data"
 	"github.com/lonzzi/leetcode-daily-rank/models"
 	"github.com/lonzzi/leetcode-daily-rank/models/api"
@@ -220,12 +222,18 @@ func GetUserProfile(userSlug string) (*api.User, error) {
 	}, nil
 }
 
-func GetUsersByRank() ([]*models.User, error) {
-	dbUsers := []*models.User{}
-	db := data.Get()
-	ret := db.Order("today_submissions desc").Find(&dbUsers)
-	if ret.Error != nil {
-		return nil, ret.Error
+func GetUsersByRank() ([]*api.User, error) {
+	dbUsers := []*api.User{}
+	conf := config.GetConfig()
+	for _, u := range conf.LeetCode.UserSlug {
+		user, err := GetUserProfile(u)
+		if err != nil {
+			return nil, err
+		}
+		dbUsers = append(dbUsers, user)
 	}
+	sort.Slice(dbUsers, func(i, j int) bool {
+		return dbUsers[i].TodaySubmissions > dbUsers[j].TodaySubmissions
+	})
 	return dbUsers, nil
 }
