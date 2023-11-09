@@ -228,7 +228,7 @@ func GetUsersByRank() ([]*api.User, error) {
 	for _, u := range conf.LeetCode.UserSlug {
 		user, err := GetUserProfile(u)
 		if err != nil {
-			return nil, err
+			continue
 		}
 		dbUsers = append(dbUsers, user)
 	}
