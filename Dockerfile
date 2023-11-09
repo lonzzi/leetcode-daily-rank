@@ -10,7 +10,7 @@ COPY . .
 
 RUN go mod tidy
 
-RUN CGO_ENABLED=1 GOOS=linux go build -ldflags '-linkmode "external" -extldflags "-static"' -o app .
+RUN CGO_ENABLED=1 GOOS=linux go build -ldflags '-linkmode "external" -extldflags "-static"' -o leetcode-daily-rank .
 
 FROM alpine:latest as prod
 
@@ -18,6 +18,6 @@ RUN apk --no-cache add ca-certificates
 
 WORKDIR /root/
 COPY --from=0 /leetcode-daily-rank/config/config.yml.example ./config/config.yml
-COPY --from=0 /leetcode-daily-rank/app .
+COPY --from=0 /leetcode-daily-rank/leetcode-daily-rank .
 
-CMD ["./app"]
+CMD ["./leetcode-daily-rank"]

@@ -1,0 +1,11 @@
+version: '3'
+services:
+  leetcode-daily-rank:
+    build: .
+    image: leetcode-daily-rank:latest
+    container_name: leetcode-daily-rank
+    ports:
+      - 3301:3301
+    restart: always
+    volumes:
+      - ./config/config.yml:/root/config/config.yml
