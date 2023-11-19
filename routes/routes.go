@@ -21,4 +21,6 @@ func InitRoute(r *gin.Engine) {
 		userG.GET("/:userSlug", handlers.GetUserProfile)
 		userG.GET("/rank", handlers.GetUsersByRank)
 	}
+
+	r.GET("login", handlers.Login)
 }
